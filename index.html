@@ -230,9 +230,17 @@
   <section>
     <p>step 1</p>
     <h4>check rating on ember observer:</h4>
-    http://emberobserver.com/addons/ember-spectrum-color-picker
+    <img src="img/observer.jpg" alt="screencap of ember observer" />
+
     Score
     <p>6/10, good enough</p>
+  </section>
+
+  <section>
+    <p>step 1</p>
+    <h4>6/10, good enough</h4>
+    <img src="img/observer-color-spectrum.jpg" alt="screencap of ember observer" />
+    <a href="http://emberobserver.com/addons/ember-spectrum-color-picker">emberobserver.com/addons/ember-spectrum-color-picker</a>
   </section>
 
   <section>
@@ -240,26 +248,29 @@
     <h4>Install</h4>
 <pre><code>
   cd ~/Desktop/myProject
-  http://emberobserver.com/addons/ember-spectrum-color-picker
+  ember install ember-spectrum-color-picker
 
 </code></pre>
-  </section>
-
-  <section>
-    Please hold for NPM
   </section>
 
   <section>
 <pre><code>
       // app/templates/application.hbs
-      {{spectrum-color-picker color=brandColor}}
+<p>
+  Hex Color: {{spectrum-color-picker color=brandColor preferredFormat="hex"}}
+</p>
+
+<div style="background-color: {{brandColor}};" class="box">
+  &nbsp;
+  {{brandColor}}
+</div>
 
 </code></pre>
   </section>
 
   <section>
-    // TODO
-    gif of it working
+    <h2>TaDa!</h2>
+    <img src="img/test-color-picker.gif" alt="test color picker working" />
   </section>
   <section data-background="https://s-media-cache-ak0.pinimg.com/736x/3c/4b/c1/3c4bc1da36ff5f4702c3f07be407f16b.jpg">
     we done...
@@ -273,7 +284,7 @@
   </section>
 
   <section>
-    OH NOS
+    <p>Welp...</p>
     <img src="http://media.giphy.com/media/13HBDT4QSTpveU/giphy.gif" alt="cat typing panic" />
   </section>
 
@@ -283,26 +294,30 @@
     <blockquote>
       moveFiresChange (default: false): when set to true, the color value will be updated in real time, instead of only once the user clicks the 'choose' button.
     </blockquote>
+    <p>&nbsp;</p>
+    <p class="fragment">...that seems too easy</p>
   </section>
 
   <section>
-  // TODO gif by here of this working
 <pre><code>
-      // app/templates/application.hbs
-      {{spectrum-color-picker
-          moveFiresChange=true
-          color=brandColor}}
+  Hex Color: {{spectrum-color-picker
+                color=brandColor
+                preferredFormat="hex"
+                moveFiresChange=true}}
 
 </code></pre>
   </section>
 
+  <section>
+    <img src="img/test-color-picker-live.gif" alt="Move fires change on test color picker" />
+  </section>
   <section data-background="https://s-media-cache-ak0.pinimg.com/736x/3c/4b/c1/3c4bc1da36ff5f4702c3f07be407f16b.jpg">
     we done done...
   </section>
 
   <section>
-    What power, what ease. Yey addon.
-    (no more cats, I promise)
+    <h2>Yey addons!</h2>
+    <p>(no more cats, I promise)</p>
   </section>
 
   <section>
