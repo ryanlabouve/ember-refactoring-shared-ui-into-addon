@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>Refactoring Shared UI into an Addon</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/darkblack.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -39,21 +39,496 @@
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
-				</section>
+<div class="slides">
 
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
+<section>
+	<h1>Refactoring Shared UI into an Addon</h1>
+	<p>
+		<small>By <a href="http://ryanlabouve.com">Ryan LaBouve</a> / <a href="http://twitter.com/ryanlabouve">@ryanlabouve</a></small>
+	</p>
+</section>
+
+<section>
+  <section>
+    <h2>We started with 1 Ember app</h2>
+    <p class="fragment">A dashboard backed by a Rails API</p>
+  </section>
+
+  <section>
+    <h2>Several months later we had 3+</h2>
+    <div class="fragment">
+      <p>Dashboard, Store/App Builder, and our Website, and some one-offs</p>
+      <p>All in production</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>This is the story of an Addon that...</h2>
+    <ul>
+      <li>
+       Adaptable consistency across projects
+      </li>
+      <li>
+        DRY'd up our assets
+      </li>
+      <li>
+        Reduced boilerplate <small>(Making spinning up new projects easy &amp; current projects eaiser to look at)</small>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Ryan LaBouve</h2>
+    <p><a href="http://ryanlabouve.com">ryanlabouve.com</a></p>
+    <p><a href="http://twitter.com">@ryanlabouve</a></p>
+  </section>
+
+  <section data-background="lib/img/raisemore.jpg">
+    &nbsp;
+  </section>
+
+  <section data-background="lib/img/holyarchers.jpg">
+    &nbsp;
+  </section>
+
+  <section>
+    <p>The LaBouves</p>
+    <img src="lib/img/family.jpg" alt="My Family" />
+  </section>
+</section>
+
+<section>
+  <header class="semi-trans">
+    call to action &amp; refusal to call
+  </header>
+  <section class="light">
+    <h2>Prolog</h2>
+    <p><strong>The Problem:</strong> Many Ember apps under one brand</p>
+    <p><strong>The Solution:</strong> A UI library via an Addon</p>
+  </section>
+
+  <section>
+    <p>So, when I started there was on ionic app &amp; a rails api, and we needed a dashboard</p>
+    <img src="img/products-without-dash.png" alt="RM Products sans Dash" />
+  </section>
+
+  <section>
+    <p>Developed ember dash</p>
+    <img src="img/products-with-dash.png" alt="RM Products with Dash" />
+    <p>We needed a website next with some plesantly interactive stuff, so we went ember</p>
+  </section>
+
+  <section>
+    <p>So, we redid the main website in ember</p>
+    <img src="img/products-with-web.png" alt="RM Products with Dash and Web" />
+    <p>Next we needed a smaller app for customizing some things about an app</p>
+  </section>
+
+  <section>
+    <p>So we built what we call 'the store', also in ember</p>
+    <img src="img/products-with-store.png" alt="RM Products with Dash and Web and Store" />
+    <p>By this point we were suffering from duplication and blah pretty hard.</p>
+  </section>
+
+  <section>
+    <p>And tones of other ember apps planned for dev</p>
+    <img src="img/products-all.png" alt="RM Products with all products: api, mobile app, dashboard, www, store, rsvp's, app www, podcasts" />
+    <p>All while our brand is consantly evolving.</p>
+  </section>
+
+  <section>
+    <h3>The problems:</h3>
+    <ul>
+      <li>Slow Adaptability <small>(i.e. changing all over the place)</small></li>
+      <li>No sharing <small>(e.g. styles, vars, components, assets)</small></li>
+      <li>Consistency is hard</li>
+      <li>Collaboration is a battle</li>
+      <li>More...</li>
+    </ul>
+  </section>
+
+  <section>
+    Ember has  a solution for this:
+    <blockquote>
+      "Addons make it possible to easily share common code between applications"
+    </blockquote>
+  </section>
+
+  <section>
+    <p>However...</p>
+    <blockquote>
+      "Addons are confusing and mysterious... does anyone even know how they work?" —me
+    </blockquote>
+    <p>&nbsp;</p>
+    <p>Other Pressures:</p>
+    <ul>
+      <li>I work at a startup, the pace is break-neck</li>
+      <li>This would become a shared cornerstone between all of our projects</li>
+    </ul>
+  </section>
+</section>
+
+<section>
+  <header class="semi-trans">
+    meeting the mentor
+  </header>
+  <section class="light">
+    <h2>Act I</h2>
+    <p>Demystifying the Process</p>
+  </section>
+  <section class="light">
+    <h3><strong>Act I: </strong> Demystifying the Process</h3>
+    <ul>
+      <li>
+        Is it possible
+      </li>
+      <li>
+        Is making an addon too hard?
+      </li>
+      <li>
+        How do we share it?
+      </li>
+      <li>
+        What about updates?
+      </li>
+      <li>
+        How would this look if we were actively developing it?
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    For several weeks I convinved myself this was too hard...
+  </section>
+
+  <section>
+    <p>What lured me in..</p>
+    <img src="img/test-color-without-picker.gif" alt="test color without picker" />
+    <p>"We need a color picker"</p>
+  </section>
+
+  <section>
+    <h1>TUTORIAL FOR INSTALLING AND USING COLOR PICKER IN 1 MINUTE</h1>
+    <p>Plus the time it takes NPM to do its thing</p>
+  </section>
+
+  <section>
+  <h2>Here is the whole app</h2>
+<pre><code>
+{{! app/application.hbs }}
+
+<style>
+  .box {width: 200px; height: 200px; border: 1px solid #ccc; }
+</style>
+
+<p> Hex Color: {{input value=brandColor}} </p>
+
+<div style="background-color: {{brandColor}};" class="box">&amp;nbsp;</div>
+</code></pre>
+  </section>
+
+  <section>
+    <p>step 1</p>
+    <h4>check rating on ember observer:</h4>
+    http://emberobserver.com/addons/ember-spectrum-color-picker
+    Score
+    <p>6/10, good enough</p>
+  </section>
+
+  <section>
+    <p>step 2</p>
+    <h4>Install</h4>
+<pre><code>
+  cd ~/Desktop/myProject
+  http://emberobserver.com/addons/ember-spectrum-color-picker
+
+</code></pre>
+  </section>
+
+  <section>
+    Please hold for NPM
+  </section>
+
+  <section>
+<pre><code>
+      // app/templates/application.hbs
+      {{spectrum-color-picker color=brandColor}}
+
+</code></pre>
+  </section>
+
+  <section>
+    // TODO
+    gif of it working
+  </section>
+  <section data-background="https://s-media-cache-ak0.pinimg.com/736x/3c/4b/c1/3c4bc1da36ff5f4702c3f07be407f16b.jpg">
+    we done...
+  </section>
+
+  <section>
+    <blockquote>
+      Color should update as user drags picker
+    </blockquote>
+    <img src="http://thumbs.dreamstime.com/z/cat-office-businessman-computer-telephone-35582256.jpg" alt="Business cat" />
+  </section>
+
+  <section>
+    OH NOS
+    <img src="http://media.giphy.com/media/13HBDT4QSTpveU/giphy.gif" alt="cat typing panic" />
+  </section>
+
+  <section>
+    <p>RTFM'ing</p>
+    <a href="https://github.com/rsschermer/ember-spectrum-color-picker">github.com/rsschermer/ember-spectrum-color-picker</a>
+    <blockquote>
+      moveFiresChange (default: false): when set to true, the color value will be updated in real time, instead of only once the user clicks the 'choose' button.
+    </blockquote>
+  </section>
+
+  <section>
+  // TODO gif by here of this working
+<pre><code>
+      // app/templates/application.hbs
+      {{spectrum-color-picker
+          moveFiresChange=true
+          color=brandColor}}
+
+</code></pre>
+  </section>
+
+  <section data-background="https://s-media-cache-ak0.pinimg.com/736x/3c/4b/c1/3c4bc1da36ff5f4702c3f07be407f16b.jpg">
+    we done done...
+  </section>
+
+  <section>
+    What power, what ease. Yey addon.
+    (no more cats, I promise)
+  </section>
+
+  <section>
+    Ok, but this is obviously hard, amirite?
+  </section>
+
+  <section>
+    <h1>My First Addon</h1>
+    <p>How hard could it be?</p>
+  </section>
+
+  <section>
+    <h2>spin-spin</h2>
+    <blockquote>
+      Make things spin
+    </blockquote>
+  </section>
+
+  <section>
+  kicking off the project
+<pre><code>
+    ember addon spin-spin
+    ember g component spin-spin --pod
+
+    // will need since our UI still will live in templates
+    npm install --save ember-cli-htmlbars
+</code></pre>
+  </section>
+
+  <section>
+  implementation
+<pre><code>
+<style>
+/* Vendor Prefixes Omitted */
+@-webkit-keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+</style>
+<div class="spin">
+  {{yield}}
+</div>
+</code></pre>
+  </section>
+
+  <section>
+    // TODO
+    code example of spinny text
+    <div class="grid">
+      <div class="col-1-2">
+<pre><code>
+{{! /tests/dummy/app/templates/application.hbs}}
+{{#spin-spin}}
+  <h2 id="title">
+    Welcome to Ember
+  </h2>
+{{/spin-spin}}
+
+</code></pre>
+      </div>
+      <div class="col-1-2">
+        <img src="img/spin-spin-welcome-to-ember.gif" alt="Text spinning"/>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <blockquote>
+      How to get this to the world?
+      It's probably really hard?
+    </blockquote>
+  </section>
+
+  <section>
+    <ol>
+      <li>Update package json</li>
+      <li><code>npm version 0.0.1</code></li>
+      <li><code>npm publish</code></li>
+      <li><code>ember install spin-spin</code> in your project</li>
+    </ol>
+  </section>
+  <section>
+<pre><code>
+{{#spin-spin}}
+  ... whole contents of application.hbs
+{{/spin-spin}}
+</code></pre>
+  </section>
+
+  <section>
+    <img src="img/spin-spin-website.gif" alt="Website spinning" />
+  </section>
+
+  <section>
+    BEHOLD THE POWER.
+  </section>
+
+  <section>
+    ok, let's do this
+  </section>
+</section>
+
+  <section>
+    <p>Breaking down the problem...</p>
+    <h3>Major Offenders:</h3>
+    <ul>
+      <li>customized bootstrap</li>
+      <li>favicon</li>
+      <li>logos and brand assets</li>
+      <li>fonts and icons</li>
+      <li>analytics and tracking stuff</li>
+      <li>deploy stuff</li>
+      <li>components (e.g. alerts, prompts, modals)</li>
+    </ul>
+  </section>
+<section>
+  <p>Struggle, Build up</p>
+
+  <section>
+    Crossing the threshold
+    First thing I moved over?
+  </section>
+
+  <section>
+    Let's look real quick at how we are customziing bootstrap.
+  </section>
+
+
+  <section>
+    Trial &amp; 1st Error
+    Moving over too many things
+    Maybe first error of the Monolthic SVG thing
+  </section>
+
+  <section>
+    Meeting Allies &amp; Enemeies
+    Studying other addons
+  </section>
+
+  <section>
+    Growth and New skills:
+    * Brocfile
+    * Node
+    * Ember
+  </section>
+
+  <section>
+    First big success
+    SVGs
+  </section>
+</section>
+
+<section>
+  <p>Struggle, Resolution</p>
+  <section>
+    Discarding old self
+    Dealing with the sign on with a way.
+    Refactor to components -> Can we make sure we have acceptance tests? -> Move to UI lib -> Integration test -> New tests
+  </section>
+
+  <section>
+    Accepting new roles
+    Updates
+    1st class support
+    governance
+  </section>
+
+  <section>
+    The road back
+    Collaboration,
+    Education,
+    and Visibility (styleguide?)
+  </section>
+
+  <section>
+    The Final Challenge?
+  </section>
+</section>
+
+<section>
+  <p>Conclusion</p>
+  <section>
+    <p>On the surface</p>
+    <h2>Victory</h2>
+    <p>We've fixed a lot of our initial problems:</p>
+    // TODO add list
+  </section>
+
+  <section>
+    On a deeper note, this was really my first deep dive into ember...
+    why?
+  </section>
+
+  <section>
+    Node.js.
+  </section>
+
+  <section>
+    Broccoli
+  </section>
+
+  <section>
+    Lots of great ember source code
+  </section>
+
+  <section>
+    So, go refactor your shared UI, espescially if you haven't written many addons.
+  </section>
+
+  <section>
+    It's a heroes journey.
+  </section>
+</section>
+
+
+
+
+
 
 				<!-- Example of nested vertical slides -->
 				<section>
