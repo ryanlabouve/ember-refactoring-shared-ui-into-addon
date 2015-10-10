@@ -51,15 +51,10 @@
 <section>
   <section>
     <h2>We started with 1 Ember app</h2>
-    <p class="fragment">A dashboard backed by a Rails API</p>
   </section>
 
   <section>
-    <h2>Several months later we had 3+</h2>
-    <div class="fragment">
-      <p>Dashboard, Store/App Builder, and our Website, and some one-offs</p>
-      <p>All in production</p>
-    </div>
+    <h2>Several months later, we had 4 Ember Apps</h2>
   </section>
 
   <section>
@@ -108,32 +103,28 @@
   </section>
 
   <section>
-    <p>So, when I started there was on ionic app &amp; a rails api, and we needed a dashboard</p>
+    <p>To fill in the back story, when I started there was on white-labeled ionic app &amp; a rails api, and we needed a dashboard</p>
     <img src="img/products-without-dash.png" alt="RM Products sans Dash" />
   </section>
 
   <section>
     <p>Developed ember dash</p>
     <img src="img/products-with-dash.png" alt="RM Products with Dash" />
-    <p>We needed a website next with some plesantly interactive stuff, so we went ember</p>
   </section>
 
   <section>
-    <p>So, we redid the main website in ember</p>
+    <p>Next we built the main website in Ember as well</p>
     <img src="img/products-with-web.png" alt="RM Products with Dash and Web" />
-    <p>Next we needed a smaller app for customizing some things about an app</p>
   </section>
 
   <section>
-    <p>So we built what we call 'the store', also in ember</p>
+    <p>Next we built a tool for clients to customize their apps</p>
     <img src="img/products-with-store.png" alt="RM Products with Dash and Web and Store" />
-    <p>By this point we were suffering from duplication and blah pretty hard.</p>
   </section>
 
   <section>
-    <p>And tones of other ember apps planned for dev</p>
+    <p>And more apps just keeping coming, all while our brand is constantly.</p>
     <img src="img/products-all.png" alt="RM Products with all products: api, mobile app, dashboard, www, store, rsvp's, app www, podcasts" />
-    <p>All while our brand is consantly evolving.</p>
   </section>
 
   <section>
@@ -142,8 +133,7 @@
       <li>Slow Adaptability <small>(i.e. changing all over the place)</small></li>
       <li>No sharing <small>(e.g. styles, vars, components, assets)</small></li>
       <li>Consistency is hard</li>
-      <li>Collaboration is a battle</li>
-      <li>More...</li>
+      <li>Style Collaboration is Messy</li>
     </ul>
   </section>
 
@@ -151,6 +141,7 @@
     Ember has  a solution for this:
     <blockquote>
       "Addons make it possible to easily share common code between applications"
+      <br>— The Ember-CLI Docs
     </blockquote>
   </section>
 
@@ -166,6 +157,10 @@
       <li>This would become a shared cornerstone between all of our projects</li>
     </ul>
   </section>
+
+  <section>
+    <small>But the potential payoff was grand, so I began exploring.</small>
+  </section>
 </section>
 
 <section>
@@ -180,10 +175,10 @@
     <h3><strong>Act I: </strong> Demystifying the Process</h3>
     <ul>
       <li>
-        Is it possible
+        Would it solve our problems?
       </li>
       <li>
-        Is making an addon too hard?
+        Is it difficult?
       </li>
       <li>
         How do we share it?
@@ -198,22 +193,20 @@
   </section>
 
   <section>
-    For several weeks I convinved myself this was too hard...
+    For several weeks I convinced myself this was too much hassle...
   </section>
 
   <section>
     <p>What lured me in..</p>
+    <blockquote>
+      We need more than an input box, we need a color picker.<br>
+      —MGMT
+    </blockquote>
     <img src="img/test-color-without-picker.gif" alt="test color without picker" />
-    <p>"We need a color picker"</p>
   </section>
 
   <section>
-    <h1>TUTORIAL FOR INSTALLING AND USING COLOR PICKER IN 1 MINUTE</h1>
-    <p>Plus the time it takes NPM to do its thing</p>
-  </section>
-
-  <section>
-  <h2>Here is the whole app</h2>
+  <h2>The APP (with just an input)</h2>
 <pre><code>
 {{! app/application.hbs }}
 
@@ -231,9 +224,6 @@
     <p>step 1</p>
     <h4>check rating on ember observer:</h4>
     <img src="img/observer.jpg" alt="screencap of ember observer" />
-
-    Score
-    <p>6/10, good enough</p>
   </section>
 
   <section>
@@ -254,14 +244,17 @@
   </section>
 
   <section>
+  <p>step 2</p>
+  <h4>Install</h4>
 <pre><code>
       // app/templates/application.hbs
 <p>
-  Hex Color: {{spectrum-color-picker color=brandColor preferredFormat="hex"}}
+  Hex Color: {{spectrum-color-picker
+                color=brandColor
+                preferredFormat="hex"}}
 </p>
 
 <div style="background-color: {{brandColor}};" class="box">
-  &nbsp;
   {{brandColor}}
 </div>
 
@@ -278,7 +271,8 @@
 
   <section>
     <blockquote>
-      Color should update as user drags picker
+      Color should update as user drags picker<br>
+      —MGMT
     </blockquote>
     <img src="http://thumbs.dreamstime.com/z/cat-office-businessman-computer-telephone-35582256.jpg" alt="Business cat" />
   </section>
@@ -295,7 +289,7 @@
       moveFiresChange (default: false): when set to true, the color value will be updated in real time, instead of only once the user clicks the 'choose' button.
     </blockquote>
     <p>&nbsp;</p>
-    <p class="fragment">...that seems too easy</p>
+    <p class="fragment">...easy enough</p>
   </section>
 
   <section>
@@ -453,11 +447,9 @@
 <pre><code>
   # inside of spin spin
   npm link
-  # /usr/local/lib/node_modules/spin-spin -> /Users/luckyrye/spin-spin
   cd ~/work/www
+  # inside of website
   npm link spin-spin
-  # unbuild spin-spin@0.0.2
-/Users/luckyrye/rm/www/node_modules/spin-spin -> /usr/local/lib/node_modules/spin-spin -> /Users/luckyrye/spin-spin
   ember serve
 </code></pre>
     <p>Now we are running directly form our addon.</p>
@@ -489,7 +481,7 @@ module.exports = {
 
 <section>
 
-  <p>Struggle, Build up</p>
+  <p class="semi-trans">Struggle, Build up</p>
   <section class="light">
     <h2>Act II</h2>
     <p>Hands Dirty</p>
@@ -514,7 +506,7 @@ module.exports = {
     <ul class="fragment">
       <li>Every project we have uses it</li>
       <li>We use bootstrap sass so we can directly customize variables</li>
-      <li>Every change we make has to be manually moved across proejcts</li>
+      <li>Every change we make has to be manually moved across projects</li>
     </ul>
     <p class="fragment">Ripe for refactor</p>
   </section>
@@ -524,7 +516,7 @@ module.exports = {
 
     <ul>
       <li>We'll want to process SASS locally and demo stuff in our demo app</li>
-      <li>We'll want the consuming project to transpile this SASS, so we could even override the variables from tehre</li>
+      <li>We'll want the consuming project to transpile this SASS, so we could even override the variables from there</li>
     </ul>
   </section>
 
@@ -627,55 +619,65 @@ echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" 
 </code></pre>
 
     <ul>
-      <li>New Addon</li>
-      <li>Install Bootstrap and SASS</li>
+      <li>New Addon <small>(We did this!)</small></li>
+      <li>Install Bootstrap and SASS <small>(We did this too!)</small></li>
       <li>Move SASS files into Addon</li>
-      <li>???</li>
+      <li>Import From Addon in Consuming Projects</li>
     </ul>
 
   </section>
 
-  <section>
-    <p>How ember paper does this</p>
-    https://github.com/miguelcobain/ember-paper/blob/master/blueprints/ember-paper/index.js
-  </section>
-  <section>
-    Install and trustfall.
-  </section>
 
   <section>
-    // in addon/styles/base.scss
+  <p>Just Checking</p>
+  <div class="grid">
+    <div class="col-1-2">
+<pre><code>
+// in addon/styles/base.scss
 
-    body {
-      background: #bada55 !important;
-    }
+body {
+  background: #bada55 !important;
+}
+</code></pre>
 
+<pre><code>
+// in consumer
+// @import "variables";
+// @import "theme";
+// @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 
-    // in consumer
-    // @import "variables";
-    // @import "theme";
-    // @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
-
-    @import "node_modules/egm-uilib/addon/styles/base";
-
-    <img src="img/TestAppA-bada55.jpg" alt="just showing scss works" />
-  </section>
-
-  <section>
-    Now let's move our previous stiles over
-    @import "variables";
-    @import "theme";
-    @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
-
-
-    // In consumer
-    @import "node_modules/egm-uilib/addon/styles/base";
-
-    // TODO picture of blackness again
+@import "node_modules/egm-uilib/addon/styles/base";
+</code></pre>
+    </div>
+    <div class="col-1-2">
+      <img src="img/TestAppA-bada55.jpg" alt="just showing scss works" />
+    </div>
+  </div>
   </section>
 
   <section>
-    <p>Now both powered by the same code!</p>
+    Now let's move our previous styles over and NPM link!
+    <div class="grid">
+      <div class="col-1-2">
+<pre><code>
+@import "variables";
+@import "theme";
+@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
+
+
+// In consumer
+@import "node_modules/egm-uilib/addon/styles/base";
+
+</code></pre>
+      </div>
+      <div class="col-1-2">
+        <img src="img/TestAppA-cyborg.jpg" alt="TestAppA with Cyborg Theme" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p>Link TestAppB and Import the 1 SASS file, and now A &amp; B are powered by the same base!</p>
     <div class="grid">
       <div class="col-1-2">
         <img src="img/TestAppA-cyborg.jpg" alt="TestAppB with the Cyborg" />
@@ -708,9 +710,13 @@ echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" 
   </section>
 
   <section>
+    Recap on what the refactor just got us
+  </section>
+
+  <section>
     <h2>Let's talk about Brand Assets.</h2>
     <ul class="fragment">
-      <li>They should be absolutely consistent <small>(althought that turns into a constant battle)</small></li>
+      <li>They should be absolutely consistent <small>(although that turns into a constant battle)</small></li>
       <li>Every time they change, they should change everywhere</li>
       <li>Cycles wasted looking for them trying to confirm they are right</li>
     </ul>
@@ -730,7 +736,7 @@ echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" 
     <table class="table-small">
       <tr>
         <td>app/ -</td>
-        <td>merged with the application’s namespace.</td>
+        <td>merged with the application's namespace.</td>
       </tr>
       <tr>
         <td>addon/ - </td>
@@ -746,11 +752,11 @@ echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" 
       </tr>
       <tr>
         <td>test-support/ - </td>
-        <td>merged with the application’s tests/</td>
+        <td>merged with the application's tests/</td>
       </tr>
       <tr>
         <td>tests/ -</td>
-        <td>test infrastructure including a “dummy” app and acceptance test helpers.</td>
+        <td>test infrastructure including a "dummy" app and acceptance test helpers.</td>
       </tr>
       <tr>
         <td>vendor/ - </td>
@@ -772,136 +778,214 @@ echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" 
 
   </section>
 
-
   <section>
-  take away from mystery
+    <h2>Addon project structure</h2>
 
-    ember build
+    <p>The addon project created follows these structure conventions:</p>
 
-    Built project successfully. Stored in "dist/".
+    <table class="table-small">
+      <tr class="semi-trans">
+        <td>app/ -</td>
+        <td>merged with the application’s namespace.</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>addon/ - </td>
+        <td>part of the addon’s namespace.</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>blueprints/ - </td>
+        <td>contains any blueprints that come with the addon, each in a separate directory</td>
+      </tr>
+      <tr>
+        <td>public/ - </td>
+        <td>static files which will be available in the application as /your-addon/*</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>test-support/ - </td>
+        <td>merged with the application’s tests/</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>tests/ -</td>
+        <td>test infrastructure including a “dummy” app and acceptance test helpers.</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>vendor/ - </td>
+        <td>vendor specific files, such as stylesheets, fonts, external libs etc.</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>ember-cli-build.js - </td>
+        <td>Compilation configuration</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>package.json -</td>
+        <td>Node meta-data, dependencies etc.</td>
+      </tr>
+      <tr class="semi-trans">
+        <td>index.js - </td>
+        <td>main Node entry point (as per npm conventions)</td>
+      </tr>
+    </table>
 
-    ls dist/egm-uilib
-    ... list of files
   </section>
   <section>
-    ember g component egm-logo --pod
-
+    <div class="grid">
+      <div class="col-1-2">
+        <h3>Let's Verify</h3>
+        <ul>
+          <li>
+            mkdir public
+          </li>
+          <li>
+            Place assets into 'public'
+          </li>
+          <li>
+            ember build
+          </li>
+        </ul>
+      </div>
+      <div class="col-1-2">
+        <img src="img/proof-in-dist.jpg" alt="Proof of assets copied into folder" />
+      </div>
+    </div>
   </section>
 
   <section>
     <img src="img/egm-logo.jpg" alt="picture of implementation of component" />
   </section>
 
-</section>
-
-<section>
-
   <section>
-    Trial &amp; 1st Error
-    Moving over too many things
-    Maybe first error of the Monolthic SVG thing
+    What We've gained here
   </section>
 
   <section>
-    Meeting Allies &amp; Enemeies
-    Studying other addons
-  </section>
-
-  <section>
-    Growth and New skills:
-    * Brocfile
-    * Node
-    * Ember
-  </section>
-
-  <section>
-    First big success
-    SVGs
-  </section>
-
-  <p>Struggle, Resolution</p>
-  <section>
-    Discarding old self
-    Dealing with the sign on with a way.
-    Refactor to components -> Can we make sure we have acceptance tests? -> Move to UI lib -> Integration test -> New tests
-  </section>
-
-  <section>
-    Accepting new roles
-    Updates
-    1st class support
-    governance
-  </section>
-
-  <section>
-    The road back
-    Collaboration,
-    Education,
-    and Visibility (styleguide?)
-  </section>
-
-  <section>
-    The Final Challenge?
+    Many concepts not covered, but the key is exploration.
   </section>
 </section>
 
 <section>
-  <p>Conclusion</p>
+  <section class="light">
+    <h2>Act III</h2>
+    <p>Lessons Learned</p>
+  </section>
+  <section class="light">
+    <h2>Act III: Lessons Learned</h2>
+    <ul>
+      <li>Shoulders of Giants: Code</li>
+      <li>Shoulders of Giants: Releases</li>
+      <li>Balancing Monoliths and Modularity</li>
+      <li>Encapsulate then Refactor</li>
+      <li>Tests well to upgrade well</li>
+      <li>Visibility</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Standing on Shoulder of Giants: Code</h2>
+    <ul>
+      <li>When stuck, try to find an addons doing what you are doing</li>
+      <li>When starting a new addon or new feature spend a lot of time studying other addons</li>
+      <li>See how different addons solve the same problem</li>
+      <ul>
+        <li>ember-cli-materialize vs ember-paper</li>
+        <li>ember-cli-foundation-sass vs ember-cli-bootstrap-sass</li>
+        <li>ember-cli-sass vs ember-cli-less</li>
+      </ul>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Standing on Shoulder of Giants: Releases</h2>
+    <p>Stoke collaboration and embracing a mature software development cycle</p>
+    <ul>
+      <li>SemVer</li>
+      <li>Changelogs &amp; Regular Releases</li>
+      <li>Documentation</li>
+      <li>Evangelize</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Balancing Monoliths and Modules</h2>
+    <ul>
+      <li>Just because you can move it to an addon doesn't mean you should</li>
+      <li>More modularity equals more composability</li>
+      <li>More monolithic means more weight</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Encapsulate then Refactor</h2>
+    <ul>
+      <li>At first I typically move over large chunks over code</li>
+      <li>Then I try to dry it up</li>
+      <li>And often I end up breaking the large chunks into small reusable bits bits</li>
+      <li>(e.g. our svg preview)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Tests well to upgrade well</h2>
+    <ul>
+      <li>Acceptance Tests in Consuming Apps will save your bacon</li>
+      <li><code>npm link</code> and run tests while developing where possible</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Visibility</h2>
+    <ul>
+      <li>Evangelize updates and progress</li>
+      <li>Turn the <code>Dummy App</code> into living documentation</li>
+    </ul>
+  </section>
+</section>
+
+<section>
+  <section class="light">
+    <h2>Conclusion</h2>
+    <p>The Journey is as useful as the destination</p>
+  </section>
   <section>
     <p>On the surface</p>
     <h2>Victory</h2>
-    <p>We've fixed a lot of our initial problems:</p>
-    // TODO add list
+    <p>Clear paths on fixing our original problems</p>
+    <ul>
+      <li>Slow Adaptability <small>(i.e. changing all over the place)</small></li>
+      <li>No sharing <small>(e.g. styles, vars, components, assets)</small></li>
+      <li>Consistency is hard</li>
+      <li>Style Collaboration is Messy</li>
+    </ul>
   </section>
 
   <section>
-    On a deeper note, this was really my first deep dive into ember...
-    why?
+    <p>On a deeper note, this was really my first deep dive into the ember ecosystem...</p>
   </section>
 
   <section>
-    Node.js.
+    <h2>Node.js</h2>
   </section>
 
   <section>
-    Broccoli
+    <h2>Broccoli</h2>
   </section>
 
   <section>
-    Lots of great ember source code
+    <h2>OSS</h2>
   </section>
 
   <section>
-    So, go refactor your shared UI, espescially if you haven't written many addons.
+    <h2>Ember Itself</h2>
   </section>
 
   <section>
-    It's a heroes journey.
+    <p>Go build addons</p>
+    <p>UI is a great place to start</p>
+  </section>
+
+  <section>
+    <small>Thanks!</small>
   </section>
 </section>
 
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
 			</div>
 
 		</div>
