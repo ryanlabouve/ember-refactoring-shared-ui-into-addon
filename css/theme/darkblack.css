@@ -5,6 +5,9 @@
 .semi-trans {
   opacity: 0.3; }
 
+.table-small.table-small.table-small {
+  font-size: 22px; }
+
 /* specificity hack */
 .light.light {
   color: #666; }

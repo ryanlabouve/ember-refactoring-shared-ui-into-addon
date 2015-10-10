@@ -708,11 +708,89 @@ echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" 
   </section>
 
   <section>
-    Component inside project a.
-    promote up as internal addon
-    Then move to addon
+    <h2>Let's talk about Brand Assets.</h2>
+    <ul class="fragment">
+      <li>They should be absolutely consistent <small>(althought that turns into a constant battle)</small></li>
+      <li>Every time they change, they should change everywhere</li>
+      <li>Cycles wasted looking for them trying to confirm they are right</li>
+    </ul>
+    <p class="fragment">Ripe for refactor</p>
   </section>
 
+  <section>
+    <p>Here's our sample logos</p>
+    <img src="img/logos.png" alt="logos" />
+  </section>
+
+  <section>
+    <h2>Addon project structure</h2>
+
+    <p>The addon project created follows these structure conventions:</p>
+
+    <table class="table-small">
+      <tr>
+        <td>app/ -</td>
+        <td>merged with the application’s namespace.</td>
+      </tr>
+      <tr>
+        <td>addon/ - </td>
+        <td>part of the addon’s namespace.</td>
+      </tr>
+      <tr>
+        <td>blueprints/ - </td>
+        <td>contains any blueprints that come with the addon, each in a separate directory</td>
+      </tr>
+      <tr>
+        <td>public/ - </td>
+        <td>static files which will be available in the application as /your-addon/*</td>
+      </tr>
+      <tr>
+        <td>test-support/ - </td>
+        <td>merged with the application’s tests/</td>
+      </tr>
+      <tr>
+        <td>tests/ -</td>
+        <td>test infrastructure including a “dummy” app and acceptance test helpers.</td>
+      </tr>
+      <tr>
+        <td>vendor/ - </td>
+        <td>vendor specific files, such as stylesheets, fonts, external libs etc.</td>
+      </tr>
+      <tr>
+        <td>ember-cli-build.js - </td>
+        <td>Compilation configuration</td>
+      </tr>
+      <tr>
+        <td>package.json -</td>
+        <td>Node meta-data, dependencies etc.</td>
+      </tr>
+      <tr>
+        <td>index.js - </td>
+        <td>main Node entry point (as per npm conventions)</td>
+      </tr>
+    </table>
+
+  </section>
+
+
+  <section>
+  take away from mystery
+
+    ember build
+
+    Built project successfully. Stored in "dist/".
+
+    ls dist/egm-uilib
+    ... list of files
+  </section>
+  <section>
+    ember g component egm-logo --pod
+
+  </section>
+
+  <section>
+    <img src="img/egm-logo.jpg" alt="picture of implementation of component" />
+  </section>
 
 </section>
 
