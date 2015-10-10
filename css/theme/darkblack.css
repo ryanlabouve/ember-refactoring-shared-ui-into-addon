@@ -5,6 +5,9 @@
 .semi-trans {
   opacity: 0.3; }
 
+.crossout {
+  text-decoration: line-through; }
+
 .table-small.table-small.table-small {
   font-size: 22px; }
 
