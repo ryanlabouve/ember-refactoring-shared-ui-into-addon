@@ -321,7 +321,7 @@
   </section>
 
   <section>
-    Ok, but this is obviously hard, amirite?
+    Show the cross outs with the next problem we are looking at
   </section>
 
   <section>
@@ -372,8 +372,6 @@
   </section>
 
   <section>
-    // TODO
-    code example of spinny text
     <div class="grid">
       <div class="col-1-2">
 <pre><code>
@@ -400,14 +398,23 @@
   </section>
 
   <section>
+    <h2>Publishing Your Addon</h2>
     <ol>
       <li>Update package json</li>
       <li><code>npm version 0.0.1</code></li>
       <li><code>npm publish</code></li>
-      <li><code>ember install spin-spin</code> in your project</li>
     </ol>
   </section>
   <section>
+    <h2>Installing your addon</h2>
+<pre><code>
+  cd ~/work/www
+  ember install spin-spin
+
+</code></pre>
+  </section>
+  <section>
+  <p>...meanwhile in the www's <code>application.hbs</code></p>
 <pre><code>
 {{#spin-spin}}
   ... whole contents of application.hbs
@@ -420,18 +427,77 @@
   </section>
 
   <section>
-    BEHOLD THE POWER.
+    <h2>Ok, that's a little fast, how do we update?</h2>
   </section>
 
   <section>
-    ok, let's do this
+    <p>Back in the addon we change <code>animation-duration: 40000ms;</code> and commit.</p>
+    <ol>
+      <li><code>npm version 0.0.2</code></li>
+      <li><code>npm publish</code></li>
+    </ol>
+  </section>
+
+  <section>
+    <p>Next, let's go back into the project and run <code>npm outdated</code>.</p>
+    <img src="img/npm-outdated.jpg" alt="result from npm outdated" />
+  </section>
+
+  <section>
+    <p>Updated packages.json to be version <code>0.0.2</code> and <code>npm install</code></p>
+    <img src="img/slow-spin.gif" alt="result from npm outdated" />
+  </section>
+
+  <section>
+    <p>Last, if I had to publish every change I wanted to see live... that would be terrible</p>
+<pre><code>
+  # inside of spin spin
+  npm link
+  # /usr/local/lib/node_modules/spin-spin -> /Users/luckyrye/spin-spin
+  cd ~/work/www
+  npm link spin-spin
+  # unbuild spin-spin@0.0.2
+/Users/luckyrye/rm/www/node_modules/spin-spin -> /usr/local/lib/node_modules/spin-spin -> /Users/luckyrye/spin-spin
+  ember serve
+</code></pre>
+    <p>Now we are running directly form our addon.</p>
+  </section>
+
+  <section>
+    <p>Even better, we can get live reload to work.</p>
+
+    <code>cd ~/spin-spin</code>
+<pre><code>
+/* jshint node: true */
+'use strict';
+
+module.exports = {
+  name: 'spin-spin',
+
+  isDevelopingAddon: function() {
+    return true;
+  }
+};
+</code></pre>
+  </section>
+
+  <section>
+    <p>First class live reload support.</p>
+    <video src="img/live-reload-addon.mp4"></video>
   </section>
 </section>
 
-  <section>
-    <p>Breaking down the problem...</p>
-    <h3>Major Offenders:</h3>
-    <ul>
+<section>
+
+  <p>Struggle, Build up</p>
+  <section class="light">
+    <h2>Act II</h2>
+    <p>Hands Dirty</p>
+  </section>
+  <section class="light">
+    <h3><strong>Act II: </strong> Hands Dirty</h3>
+    <p>Candidates for Exploration</p>
+    <ol>
       <li>customized bootstrap</li>
       <li>favicon</li>
       <li>logos and brand assets</li>
@@ -439,20 +505,218 @@
       <li>analytics and tracking stuff</li>
       <li>deploy stuff</li>
       <li>components (e.g. alerts, prompts, modals)</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="semi-trans">Crossing the threshold</div>
+    <h2>Let's talk about Bootstrap™.</h2>
+    <ul class="fragment">
+      <li>Every project we have uses it</li>
+      <li>We use bootstrap sass so we can directly customize variables</li>
+      <li>Every change we make has to be manually moved across proejcts</li>
+    </ul>
+    <p class="fragment">Ripe for refactor</p>
+  </section>
+
+  <section>
+    Some notes on this:
+
+    <ul>
+      <li>We'll want to process SASS locally and demo stuff in our demo app</li>
+      <li>We'll want the consuming project to transpile this SASS, so we could even override the variables from tehre</li>
     </ul>
   </section>
+
+  <section>
+<pre><code>
+ember new testAppA && ember new testAppB
+cd testAppA
+npm install --save-dev ember-cli-sass
+mv app/styles/app.css app/styles/app.scss
+bower install bootstrap-sass --save
+echo "@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';" >> app/styles/app.scss
+
+</code></pre>
+
+(do same thing for app b)
+  </section>
+
+  <section>
+    <div class="grid">
+      <div class="col-1-2">
+        <p class="text-center">Blank</p>
+        <img src="img/testapp-no-bootstrap.jpg" alt="test app without bootstrap" />
+      </div>
+      <div class="col-1-2">
+        <p class="text-center">Bootstrap</p>
+        <img src="img/testapp-bootstrap.jpg" alt="test app without bootstrap" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p>Grab some sample code from http://getbootstrap.com/getting-started/#examples</p>
+    <div class="grid">
+      <div class="col-1-2">
+        <p class="text-center">Project A</p>
+        <img src="img/TestAppA.jpg" alt="test app without bootstrap" />
+      </div>
+      <div class="col-1-2">
+        <p class="text-center">Project B</p>
+        <img src="img/TestAppB.jpg" alt="test app without bootstrap" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p>Customize Variables on easy side.</p>
+    <div class="grid">
+      <div class="col-1-2">
+        <p class="text-center">Updating Bootstrap Theme</p>
+        <div>
+          <img src="img/bootswatch.jpg" alt="screenshot of bootswatch" />
+        </div>
+        <div>
+
+        </div>
+      </div>
+      <div class="col-1-2">
+        <p class="text-center">With theme applied</p>
+<pre><code>
+// testAppA:
+// app/styles/app.scss
+
+@import "variables";
+@import "theme";
+@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
+
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <p>Instead of copying and pasting for every single theme change we make,
+        let's roll this up into an addon.</p>
+    <div class="grid">
+      <div class="col-1-2">
+        <p>Test App A</p>
+        <img src="img/TestAppA-cyborg.jpg" alt="TestAppA with Cyborg Theme" />
+      </div>
+      <div class="col-1-2">
+        <p>Test App B</p>
+        <img src="img/TestAppB.jpg" alt="test app without bootstrap" />
+      </div>
+    </div>
+
+  </section>
+
+  <section>
+    Let's kickoff our lib and get it pointed to both testAppA and testAppB
+
+<pre><code>
+  ember addon egm-uilib
+
+  npm install --save ember-cli-htmlbars
+  bower install bootstrap-sass --save
+  npm install ember-cli-sass --save
+  # ... just like before
+
+</code></pre>
+
+    <ul>
+      <li>New Addon</li>
+      <li>Install Bootstrap and SASS</li>
+      <li>Move SASS files into Addon</li>
+      <li>???</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <p>How ember paper does this</p>
+    https://github.com/miguelcobain/ember-paper/blob/master/blueprints/ember-paper/index.js
+  </section>
+  <section>
+    Install and trustfall.
+  </section>
+
+  <section>
+    // in addon/styles/base.scss
+
+    body {
+      background: #bada55 !important;
+    }
+
+
+    // in consumer
+    // @import "variables";
+    // @import "theme";
+    // @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
+
+    @import "node_modules/egm-uilib/addon/styles/base";
+
+    <img src="img/TestAppA-bada55.jpg" alt="just showing scss works" />
+  </section>
+
+  <section>
+    Now let's move our previous stiles over
+    @import "variables";
+    @import "theme";
+    @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
+
+
+    // In consumer
+    @import "node_modules/egm-uilib/addon/styles/base";
+
+    // TODO picture of blackness again
+  </section>
+
+  <section>
+    <p>Now both powered by the same code!</p>
+    <div class="grid">
+      <div class="col-1-2">
+        <img src="img/TestAppA-cyborg.jpg" alt="TestAppB with the Cyborg" />
+      </div>
+      <div class="col-1-2">
+        <img src="img/TestAppB-cyborg.jpg" alt="TestAppB with the Cyborg" />
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <p>Cyborg</p>
+    <img src="img/theme-cyborg.jpg" />
+  </section>
+
+  <section>
+    <p>Darkly</p>
+    <img src="img/theme-darkly.jpg" />
+  </section>
+
+  <section>
+    <p>Cyborg</p>
+    <img src="img/theme-flatly.jpg" />
+  </section>
+
+  <section>
+    <p>Cyborg</p>
+    <img src="img/theme-united.jpg" />
+  </section>
+
+  <section>
+    Component inside project a.
+    promote up as internal addon
+    Then move to addon
+  </section>
+
+
+</section>
+
 <section>
-  <p>Struggle, Build up</p>
-
-  <section>
-    Crossing the threshold
-    First thing I moved over?
-  </section>
-
-  <section>
-    Let's look real quick at how we are customziing bootstrap.
-  </section>
-
 
   <section>
     Trial &amp; 1st Error
@@ -476,9 +740,7 @@
     First big success
     SVGs
   </section>
-</section>
 
-<section>
   <p>Struggle, Resolution</p>
   <section>
     Discarding old self
@@ -540,78 +802,6 @@
   </section>
 </section>
 
-
-
-
-
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
-
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
 				<section>
 					<section id="fragments">
 						<h2>Fragments</h2>
@@ -634,237 +824,6 @@
 						<p class="fragment highlight-blue">highlight-blue</p>
 					</section>
 				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code class="hljs" data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
-
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
-
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
-
 			</div>
 
 		</div>
